@@ -1,5 +1,11 @@
 FROM dtzar/helm-kubectl:2.12.3
 
+RUN apk -v --update add \
+  python py-pip \
+  && pip install -U awscli \
+  && apk -v --purge del py-pip \
+  && rm /var/cache/apk/*
+
 RUN wget -q https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/download/0.4.0-alpha.1/aws-iam-authenticator_0.4.0-alpha.1_linux_amd64 -O /usr/local/bin/aws-iam-authenticator \
   && chmod +x /usr/local/bin/aws-iam-authenticator
 
